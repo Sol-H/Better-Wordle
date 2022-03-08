@@ -1,0 +1,23 @@
+{
+  "name": "better-wordle",
+  "version": "1.0.0",
+  "description": "A cheat-proof wordle",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UP2013168/Better-Wordle.git"
+  },
+  "author": "Sol Hollingsworth",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/UP2013168/Better-Wordle/issues"
+  },
+  "homepage": "https://github.com/UP2013168/Better-Wordle#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
