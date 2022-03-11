@@ -90,6 +90,7 @@ nav.flexbox {
   max-height: var(--game-max-height);
   display: flex;
   flex-direction: column;
+
 }
 
 #board-container {
