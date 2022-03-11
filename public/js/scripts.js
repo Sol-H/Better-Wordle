@@ -12,13 +12,14 @@ function createTiles(){
   const row = document.createElement('div');
   row.classList.add('board-row');
   tile.classList.add('tile');
-  // Create rows
+  // Create 6 rows
   for (let i = 0; i < 6; i++){
     board.append(row.cloneNode(true));
   }
   const rows = document.querySelectorAll('.board-row');
   // Add 5 tiles to each row
   for (let row1 of rows){
+    row1.setAttribute("letters", "");
     for (let i = 0; i < 5; i++){
       row1.append(tile.cloneNode(true));
     }
@@ -51,8 +52,29 @@ function createKeyboard(){
   }
 }
 
+
+function typingHandler(typed){
+  const letter = typed.key;
+  const rows = document.querySelectorAll('.board-row');
+  const row = rows[0];
+  const tiles = row.children;
+  let wordLength = Object.keys(row.getAttribute("letters")).length;
+    if (letter.match(/^[a-z]$/)){
+      if (wordLength < 5){
+        row.setAttribute("letters", row.getAttribute('letters') + letter);
+        tiles[0].textContent = letter;  
+      }
+      
+    else if (letter == 'Backspace'){
+        console.log("backspace");
+        row.setAttribute("letters", row.getAttribute("letters").slice(0, wordLength-1));
+      }
+  }
+}
+
 window.onload = (event) => {
   createTiles();
   createKeyboard();
+  window.addEventListener("keydown", typingHandler);
   console.log('page is fully loaded');
 };
