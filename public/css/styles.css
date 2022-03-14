@@ -106,7 +106,7 @@ nav.flexbox {
   grid-gap: 0.5em;
   padding: 1em;
   box-sizing: border-box;
-  width: 90%;
+  width: 75%;
 }
 
 .board-row{

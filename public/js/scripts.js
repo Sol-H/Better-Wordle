@@ -52,17 +52,27 @@ function createKeyboard(){
   }
 }
 
+function playGame(){
+  const rows = document.querySelectorAll('.board-row');
+  let currentRow = rows[0];
+  const tiles = currentRow.children;
+  let currentTile = tiles[0];
+  window.addEventListener("keydown", typingHandler);
+
+
+}
+
 
 function typingHandler(typed){
   const letter = typed.key;
-  const rows = document.querySelectorAll('.board-row');
-  const row = rows[0];
-  const tiles = row.children;
-  let wordLength = Object.keys(row.getAttribute("letters")).length;
+  
+  console.log(currentRow, currentTile);
+
+  let wordLength = Object.keys(currentRow.getAttribute("letters")).length;
     if (letter.match(/^[a-z]$/)){
       if (wordLength < 5){
-        row.setAttribute("letters", row.getAttribute('letters') + letter);
-        tiles[0].textContent = letter;  
+        currentRow.setAttribute("letters", row.getAttribute('letters') + letter);
+        currentTile.textContent = letter;  
       }
       
     else if (letter == 'Backspace'){
@@ -75,6 +85,6 @@ function typingHandler(typed){
 window.onload = (event) => {
   createTiles();
   createKeyboard();
-  window.addEventListener("keydown", typingHandler);
+  playGame();
   console.log('page is fully loaded');
 };
