@@ -87,7 +87,6 @@ nav.flexbox {
     max-width: var(--game-max-width);
     margin: 0 auto;
     height: calc(100vh - var(--header-height));
-    max-height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -102,30 +101,24 @@ nav.flexbox {
 
 #board {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);  
-  grid-gap: 0.5em;
+  grid-template-columns: repeat(5, 1fr);  
+  grid-gap: 0.75em;
   padding: 1em;
   box-sizing: border-box;
-  width: 90%;
-}
 
-.board-row{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
 }
 
 .tile {
   width: 100%;
-  margin: 0.1em;
   outline-style: solid;
-  outline-color: var(--color-tone-5);
-  background-color: var(--color-tone-7);
-  border-radius: 0.25em;
-  padding: 0.25em;
-  content: "";
-  display: block;
+  color: var(--color-tone-5);
   padding-bottom: 100%;
+
+  font-size: 50px;
+  font-weight: bold;
+
+  min-width: 60px;
+  min-height: 60px;
 }
 
 .tile.typed{
@@ -133,23 +126,21 @@ nav.flexbox {
 }
 
 #key-container {
-  margin: 0 0.8em;
+  height: 30%;
 }
 
 .key-row{
   display: flex;
+  justify-content: center;
   width: 100%;
-  height: 30%;
   margin: 0 auto 8px;
   touch-action: manipulation;
-
-  justify-content: center;
-  align-items: center;
 }
 
 .key-row button{
     display: flex;
     flex: 1;
+    flex-grow: 1;
     font-family: inherit;
     font-weight: bold;
     border: 0;
@@ -164,9 +155,10 @@ nav.flexbox {
     justify-content: center;
     align-items: center;
     -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+    text-transform: uppercase;
 }
 
-.key.larger {
+.key-row button.larger {
   flex: 1.5;
 }
 
