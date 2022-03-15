@@ -111,14 +111,19 @@ nav.flexbox {
 .tile {
   width: 100%;
   outline-style: solid;
-  color: var(--color-tone-5);
-  padding-bottom: 100%;
+  outline-color: var(--color-tone-5);
 
-  font-size: 50px;
+  font-size: 2.75rem;
   font-weight: bold;
+  color: var(--color-tone-1);
+  text-transform: uppercase;
 
   min-width: 60px;
   min-height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tile.typed{
