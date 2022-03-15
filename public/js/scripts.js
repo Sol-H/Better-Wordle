@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded",() =>{
   const keys = document.querySelectorAll('.key-row button');
 
   addKeyboardClicks();
+  window.addEventListener("keydown", typingHandler);
 
 // FUNCTION FOR WHEN API IS WORKING
   // function getNewWord(){
@@ -42,38 +43,91 @@ document.addEventListener("DOMContentLoaded",() =>{
     return "rgb(181, 159, 59)";
   }
 
+  // Add functionality for typing on physical keyboard
+  function typingHandler(event){
+    let letter = event.key;
+
+    console.log(letter);
+    if (letter === "Enter"){
+      handleSubmitWord();
+      return;
+    }
+
+    if (letter === "Backspace"){
+      handleDeleteLetter();
+      return
+    }
+
+    //Make sure only letters are allowed
+    if (letter.match(/^[a-z]$/)){
+      updateGuessedWords(letter);
+    }
+    
+  }
+
+
+  // Add event listeners to each key on the on screen keyboard
+  function addKeyboardClicks(){
+    for (let key of keys){
+      key.onclick = ({target}) => {
+        const letter = target.getAttribute('data-key');
+
+        if (letter === "enter"){
+          handleSubmitWord();
+          return;
+        }
+
+        if (letter === "del"){
+          handleDeleteLetter();
+          return;
+        }
+
+        updateGuessedWords(letter);
+      }
+    }
+  }
+
   function handleSubmitWord(){
     const currentWordArr = getCurrentWordArr();
+
+    //Make sure the word is 5 letters long
     if (currentWordArr.length != 5){
-      window.alert("Word must be 5 letters!");
       return;
     }
     const currentWord = currentWordArr.join('');
 
-    //Set colours and animations for the current word
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
+
+    //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
       setTimeout(()=>{
         const tileColor = getTileColor(letter, index);
 
+        //Change the colors of tiles based on guess
         const letterId = firstLetterId + index;
         const letterEl = document.getElementById(letterId);
         letterEl.classList.add("animate__flipInX");
         letterEl.style = `outline-color:${tileColor};background-color:${tileColor};`
+
+        //Change the colors of keyboard buttons based on guess
+        const letterKeyEl = document.querySelector(`[data-key="${letter}"]`);
+        letterKeyEl.style = `background-color:${tileColor};`
 
       }, interval * index);
     });
 
     guessedWordCount += 1;
 
+    // WInning guess
     if (currentWord === word){
-      window.alert("Congratulations");
+      window.alert("You win!!!");
+      return;
     }
 
     if (guessedWords.length === 6){
       window.alert(`Sorry, you have no more guesses! The word is ${word}!`);
-    }
+    }  
 
     guessedWords.push([]);
   }
@@ -107,71 +161,50 @@ document.addEventListener("DOMContentLoaded",() =>{
     console.log(guessedWords);
   }
 
-    function createTiles(){
-      const board = document.querySelector('#board');
+  function createTiles(){
+    const board = document.querySelector('#board');
       
-        for (let i=0; i < 30; i++){
-          let tile = document.createElement("div");
-          tile.classList.add("tile");
-          tile.classList.add("animate__animated");
-          tile.setAttribute("id", i+1);
-          board.append(tile);
-        }
-      }
-
-    function createKeyboard(){
-      const keyLetters = [
-        'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-         'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-        'enter','z', 'x', 'c', 'v', 'b', 'n', 'm', 'del'
-      ]
-
-      for (const key of keyLetters){
-        let keyRows = document.querySelectorAll('.key-row')
-        let newKey = document.createElement('button');
-
-        newKey.setAttribute('data-key', key);
-        newKey.textContent = key;
-
-        // Top row of letters
-        if(keyLetters.indexOf(key)<10){
-          keyRows[0].append(newKey);
-        }
-        // Middle row of letters
-        else if(keyLetters.indexOf(key)<19){
-          keyRows[1].append(newKey);
-        }
-        // Bottom row of letters
-        else{
-          keyRows[2].append(newKey);
-        }
-        // Make backspace and enter larger
-        if (keyLetters.indexOf(key) == 19 || keyLetters.indexOf(key) == 27){
-          newKey.classList.add("larger");
-        }
+      for (let i=0; i < 30; i++){
+        let tile = document.createElement("div");
+        tile.classList.add("tile");
+        tile.classList.add("animate__animated");
+        tile.setAttribute("id", i+1);
+        board.append(tile);
       }
     }
 
-// Add event listeners to each key on the keyboard
-  function addKeyboardClicks(){
-    for (let key of keys){
-      key.onclick = ({target}) => {
-        const letter = target.getAttribute('data-key');
+  function createKeyboard(){
+    const keyLetters = [
+      'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+       'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+      'enter','z', 'x', 'c', 'v', 'b', 'n', 'm', 'del'
+    ]
 
-        if (letter === "enter"){
-          handleSubmitWord();
-          return;
-        }
+    for (const key of keyLetters){
+      let keyRows = document.querySelectorAll('.key-row')
+      let newKey = document.createElement('button');
 
-        if (letter === "del"){
-          handleDeleteLetter();
-          return
-        }
+       newKey.setAttribute('data-key', key);
+       newKey.textContent = key;
 
-        updateGuessedWords(letter);
+      // Top row of letters
+      if(keyLetters.indexOf(key)<10){
+        keyRows[0].append(newKey);
+      }
+      // Middle row of letters
+      else if(keyLetters.indexOf(key)<19){
+        keyRows[1].append(newKey);
+      }
+      // Bottom row of letters
+      else{
+        keyRows[2].append(newKey);
+      }
+      // Make backspace and enter larger
+      if (keyLetters.indexOf(key) == 19 || keyLetters.indexOf(key) == 27){
+        newKey.classList.add("larger");
       }
     }
   }
-  
 
-  })
+
+})
