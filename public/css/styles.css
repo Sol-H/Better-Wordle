@@ -128,10 +128,6 @@ nav.flexbox {
   justify-content: center;
 }
 
-.tile.typed{
-  outline-color: var(--color-tone-4);
-}
-
 #key-container {
   height: 30%;
 }

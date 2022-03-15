@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded",() =>{
       const lastLetterEl = document.getElementById(String(availableSpace - 1));
 
       lastLetterEl.textContent = '';
+      lastLetterEl.style = 'outline-color:#272729';
       availableSpace = availableSpace -1
     }
   }
@@ -156,6 +157,7 @@ document.addEventListener("DOMContentLoaded",() =>{
       currentWordArr.push(letter);
       const availableSpaceEl = document.getElementById(String(availableSpace));
       availableSpace += 1;
+      availableSpaceEl.style = 'outline-color:rgb(58,58,60)';
       availableSpaceEl.textContent = letter;
     }
     console.log(guessedWords);
