@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded",() =>{
   let guessedWords = [[]];
   let availableSpace = 1;
 
-  let word = "heart";
+  let word = "penis";
   //let word = getNewWord();
   let guessedWordCount = 0;
 
@@ -24,37 +24,17 @@ document.addEventListener("DOMContentLoaded",() =>{
   //   );
   // }
 
-  function getTileColor(letter, index){
-    const isCorrectLetter = word.includes(letter);
-
-    //If the letter is not correct, make the tile grey
-    if (!isCorrectLetter){
-      return "rgb(58,58,60)";
-    }
-
-    const letterInThatPosition = word.charAt(index);
-    const isCorrectPosition = letter === letterInThatPosition;
-
-    // IF correct position the color is green
-    if (isCorrectPosition){
-      return "rgb(83, 141, 78)";
-    }
-    // Otherwise it is yellow
-    return "rgb(181, 159, 59)";
-  }
-
   // Add functionality for typing on physical keyboard
   function typingHandler(event){
     let letter = event.key;
 
-    console.log(letter);
     if (letter === "Enter"){
-      handleSubmitWord();
+      submitWord();
       return;
     }
 
     if (letter === "Backspace"){
-      handleDeleteLetter();
+      deleteLetter();
       return
     }
 
@@ -73,12 +53,12 @@ document.addEventListener("DOMContentLoaded",() =>{
         const letter = target.getAttribute('data-key');
 
         if (letter === "enter"){
-          handleSubmitWord();
+          submitWord();
           return;
         }
 
         if (letter === "del"){
-          handleDeleteLetter();
+          deleteLetter();
           return;
         }
 
@@ -87,7 +67,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     }
   }
 
-  function handleSubmitWord(){
+  function submitWord(){
     const currentWordArr = getCurrentWordArr();
 
     //Make sure the word is 5 letters long
@@ -99,14 +79,23 @@ document.addEventListener("DOMContentLoaded",() =>{
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
 
+    currentWordArr.forEach((letter, index) => {
+
+
+    });
+
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
       setTimeout(()=>{
-        const tileColor = getTileColor(letter, index);
-
+        const position = getPosition(letter, index);
+      
         //Change the colors of tiles based on guess
         const letterId = firstLetterId + index;
         const letterEl = document.getElementById(letterId);
+        letterEl.classList.add(position);
+        
+        const tileColor = getTileColor(position);
+        
         letterEl.classList.add("animate__flipInX");
         letterEl.style = `outline-color:${tileColor};background-color:${tileColor};`
 
@@ -132,10 +121,45 @@ document.addEventListener("DOMContentLoaded",() =>{
     guessedWords.push([]);
   }
 
-  function handleDeleteLetter(){
+  function getPosition(letter, index){
+    const isCorrectLetter = word.includes(letter);
+
+    //If the letter is not correct, the position is "notInWord"
+    if (!isCorrectLetter){
+      return "notInWord";
+    }
+
+    const letterInThatPosition = word.charAt(index);
+    const isCorrectPosition = letter === letterInThatPosition;
+
+    // IF correct position, the position is "correctPosition"
+    if (isCorrectPosition){
+      return "correctPosition";
+    }
+    // Otherwise it is in the wrong place
+    return "wrongPosition";
+
+  }
+
+  function getTileColor(position){
+
+    //If the letter is not correct, make the tile grey
+    if (position === "notInWord"){
+      return "rgb(58,58,60)";
+    }
+
+    // IF correct position the color is green
+    if (position === "correctPosition"){
+      return "rgb(83, 141, 78)";
+    }
+    // Otherwise it is yellow
+    return "rgb(181, 159, 59)";
+  }
+
+  function deleteLetter(){
     const currentWordArr = getCurrentWordArr();
     if(currentWordArr.length > 0){
-      const removedLetter = currentWordArr.pop();
+      currentWordArr.pop();
       guessedWords[guessedWords.length -1] = currentWordArr;
 
       const lastLetterEl = document.getElementById(String(availableSpace - 1));

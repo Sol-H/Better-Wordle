@@ -102,7 +102,7 @@ nav.flexbox {
 #board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);  
-  grid-gap: 0.75em;
+  grid-gap: 0.5em;
   padding: 1em;
   box-sizing: border-box;
 
@@ -114,6 +114,7 @@ nav.flexbox {
 
   outline-style: solid;
   outline-color: var(--color-tone-5);
+  outline-width: 2px;
 
   font-size: 2.75rem;
   font-weight: bold;
@@ -130,6 +131,7 @@ nav.flexbox {
 
 #key-container {
   height: 30%;
+  margin: 3px;
 }
 
 .key-row{
