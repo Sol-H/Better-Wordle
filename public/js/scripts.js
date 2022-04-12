@@ -79,22 +79,15 @@ document.addEventListener("DOMContentLoaded",() =>{
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
 
-    currentWordArr.forEach((letter, index) => {
-
-
-    });
-
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
       setTimeout(()=>{
-        const position = getPosition(letter, index);
       
         //Change the colors of tiles based on guess
         const letterId = firstLetterId + index;
         const letterEl = document.getElementById(letterId);
-        letterEl.classList.add(position);
         
-        const tileColor = getTileColor(position);
+        const tileColor = getTileColor(letter, index, currentWordArr);
         
         letterEl.classList.add("animate__flipInX");
         letterEl.style = `outline-color:${tileColor};background-color:${tileColor};`
@@ -121,39 +114,40 @@ document.addEventListener("DOMContentLoaded",() =>{
     guessedWords.push([]);
   }
 
-  function getPosition(letter, index){
-    const isCorrectLetter = word.includes(letter);
 
-    //If the letter is not correct, the position is "notInWord"
-    if (!isCorrectLetter){
-      return "notInWord";
-    }
+  function getTileColor(letter, index, currentWordArr){
 
     const letterInThatPosition = word.charAt(index);
     const isCorrectPosition = letter === letterInThatPosition;
+    const isCorrectLetter = word.includes(letter);
 
-    // IF correct position, the position is "correctPosition"
+    // IF correct position, return green
     if (isCorrectPosition){
-      return "correctPosition";
-    }
-    // Otherwise it is in the wrong place
-    return "wrongPosition";
-
-  }
-
-  function getTileColor(position){
-
-    //If the letter is not correct, make the tile grey
-    if (position === "notInWord"){
-      return "rgb(58,58,60)";
-    }
-
-    // IF correct position the color is green
-    if (position === "correctPosition"){
       return "rgb(83, 141, 78)";
     }
-    // Otherwise it is yellow
-    return "rgb(181, 159, 59)";
+
+    // Make sure only one square is yellow for the same letters
+    let letterCount = 0;
+    let firstLetter = true;
+    currentWordArr.forEach((countedLetter, i) => {
+      console.log(countedLetter + letter);
+      if (countedLetter == letter){
+        letterCount += 1;
+        if (i < index){
+          firstLetter = false;
+        }
+      }
+
+    });
+
+     // If the letter is in the word, return yellow
+     if (isCorrectLetter && firstLetter){
+      return "rgb(181, 159, 59)";
+    }
+
+    // Otherwise, return grey
+    return "rgb(58,58,60)";
+
   }
 
   function deleteLetter(){
