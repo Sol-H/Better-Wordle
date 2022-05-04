@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 8080;
 app.use(express.static('public'));
 
 /*
@@ -10,11 +9,11 @@ app.get("/", (req, res) =>{
 })
 */
 
-app.listen(port, () => {
-    console.log("App listening at http://localhost:${port}");
+app.listen(8080, () => {
+    console.log("App listening at http://localhost:8080");
 })
 
-/*
+/*"start": "node server.js",
 app.all('*', (req, res) => {
   return res.redirect('/')
 })
