@@ -74,10 +74,21 @@ document.addEventListener("DOMContentLoaded",() =>{
     if (currentWordArr.length != 5){
       return;
     }
+
     const currentWord = currentWordArr.join('');
+
+    let isRealWord = checkRealWord(currentWord);
+
+    //Make sure the word is in the dictionary
+    if (!isRealWord){
+      alert("Not a real word!")
+      return;
+    }
 
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
+
+    console.log("hi")
 
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
@@ -114,6 +125,14 @@ document.addEventListener("DOMContentLoaded",() =>{
     guessedWords.push([]);
   }
 
+  async function checkRealWord(word_){
+    debugger;
+    const code = await fetch("https://dictionary-dot-sse-2020.nw.r.appspot.com/" + word_).then(function(response){
+      return response.status
+  })
+    console.log(code);
+    return code === 200;
+}
 
   function getTileColor(letter, index, currentWordArr){
 
