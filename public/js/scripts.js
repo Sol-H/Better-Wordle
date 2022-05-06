@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     }
   }
 
-  function submitWord(){
+  async function submitWord(){
     const currentWordArr = getCurrentWordArr();
 
     //Make sure the word is 5 letters long
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     const currentWord = currentWordArr.join('');
 
-    let isRealWord = checkRealWord(currentWord);
+    let isRealWord = await checkRealWord(currentWord);
 
     //Make sure the word is in the dictionary
     if (!isRealWord){
@@ -87,8 +87,6 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
-
-    console.log("hi")
 
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
@@ -126,7 +124,6 @@ document.addEventListener("DOMContentLoaded",() =>{
   }
 
   async function checkRealWord(word_){
-    debugger;
     const code = await fetch("https://dictionary-dot-sse-2020.nw.r.appspot.com/" + word_).then(function(response){
       return response.status
   })
