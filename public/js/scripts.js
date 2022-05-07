@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded",() =>{
   let guessedWords = [[]];
   let availableSpace = 1;
 
-  let word = "penis";
+  let word = "milky";
   //let word = getNewWord();
   let guessedWordCount = 0;
 
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     // WInning guess
     if (currentWord === word){
-      window.alert("You win!!!");
+      
       return;
     }
 
