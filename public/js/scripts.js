@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded",() =>{
   addKeyboardClicks();
   window.addEventListener("keydown", typingHandler);
 
+
+
 // FUNCTION FOR WHEN API IS WORKING
   // function getNewWord(){
   //   fetch(

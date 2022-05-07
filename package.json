@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "setuppg": "createdb better-wordle && psql better-wordle < better-wordle.sql",
-    "setup": "npm run setuppg"
+    "setup": "node ./dbHandler.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,10 @@
   "homepage": "https://github.com/UP2013168/Better-Wordle#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "sqlite3": "^5.0.6",
+    "fs": "^0.0.1-security",
+    "md5": "^2.3.0",
+    "sqlite": "^4.1.1",
+    "sqlite3": "^5.0.8",
     "uuid-random": "^1.3.0"
   }
 }
