@@ -1,6 +1,6 @@
-const sqlite3 = require('sqlite3').verbose()
-const md5 = require('md5')
-const fs = require("fs");
+import sqlite from 'sqlite'
+import fs from 'fs'
+
 
 const DBSOURCE = "db.sqlite"
 
@@ -48,7 +48,8 @@ async function dailyWord(){
 }
 
 async function findWord(id){
-    let word = db.get('SELECT * FROM Words WHERE word_id = ?', id);
+    console.log(db);
+let word = db.get('SELECT * FROM Words WHERE word_id = ?', id);
   return word;
 }
 

@@ -1,6 +1,6 @@
-const express = require("express");
+import express from 'express';
 const app = express();
-const db = require("./dbHandler");
+import * as db from './dbHandler.js'
 
 
 app.use(express.static('public'));
