@@ -11,7 +11,7 @@ app.listen(8080, () => {
 
 async function getDailyWord(req, res) {
   const word = await db.dailyWord();
-  res.json(word);
+  res.json(word.word);
 }
 
 async function getWord(req, res) {
