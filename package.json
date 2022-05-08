@@ -2,11 +2,11 @@
   "name": "better-wordle",
   "version": "1.0.0",
   "description": "A cheat-proof wordle",
-  "main": "server.js",
+  "main": "server.mjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node --experimental-modules server.mjs",
     "setup": "node ./dbHandler.js"
   },
   "repository": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/UP2013168/Better-Wordle#readme",
   "dependencies": {
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "md5": "^2.3.0",
     "sqlite": "^3.0.6",
