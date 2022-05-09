@@ -23,15 +23,6 @@ async function populateDb(){
     console.log("Database prepared.");
 }
 
-// export async function dailyWord(){
-//     let date = new Date().toISOString().split('T')[0];
-//     let year = date.split('-')[0];
-//     let month = date.split('-')[1];
-//     let day = date.split('-')[2];
-//     const dayId = (year+month+day) % 2309; // 2309 is the number of words in the words.txt file
-//     return findWord(dayId);
-// }
-
 export async function findWord(id){
     const db = await dbConn;
     let word = db.get('SELECT * FROM Words WHERE word_id = ?', id);
