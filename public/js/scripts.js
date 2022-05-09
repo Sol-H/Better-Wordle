@@ -1,30 +1,31 @@
-document.addEventListener("DOMContentLoaded",() =>{
+document.addEventListener("DOMContentLoaded",async () =>{
   createTiles();
   createKeyboard();
 
   let guessedWords = [[]];
   let availableSpace = 1;
 
-  let word = "milky";
-  //let word = getNewWord();
+  // Gets todays date then gets the word for it
+  let date = new Date().toISOString().split('T')[0];
+  let year = date.split('-')[0];
+  let month = date.split('-')[1];
+  let day = date.split('-')[2];
+  const dayId = (year+month+day) % 2309; 
+
+  word = await getWord(dayId);
+  console.log(word);
+
+  async function getWord(id){
+    const word = await fetch("./getword/" + id).then(response => response.json());
+    return word.word;
+  }
+
   let guessedWordCount = 0;
 
   const keys = document.querySelectorAll('.key-row button');
 
   addKeyboardClicks();
   window.addEventListener("keydown", typingHandler);
-
-
-
-// FUNCTION FOR WHEN API IS WORKING
-  // function getNewWord(){
-  //   fetch(
-  //     'api link',
-  //     {method: 'GET',
-  //     OTHER STUFF, 
-  //   },
-  //   );
-  // }
 
   // Add functionality for typing on physical keyboard
   function typingHandler(event){
@@ -148,7 +149,6 @@ document.addEventListener("DOMContentLoaded",() =>{
     let letterCount = 0;
     let firstLetter = true;
     currentWordArr.forEach((countedLetter, i) => {
-      console.log(countedLetter + letter);
       if (countedLetter == letter){
         letterCount += 1;
         if (i < index){
