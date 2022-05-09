@@ -5,21 +5,6 @@ document.addEventListener("DOMContentLoaded",async () =>{
   let guessedWords = [[]]; // Stores the users guessed words
   let availableSpace = 1; // Used to determine where the most recent letter was typed
 
-  // Gets todays date then gets the word for it
-  let date = new Date().toISOString().split('T')[0];
-  let year = date.split('-')[0];
-  let month = date.split('-')[1];
-  let day = date.split('-')[2];
-  const dayId = (year+month+day) % 2309; 
-
-  word = await getWord(dayId);
-  console.log(word);
-
-  async function getWord(id){
-    const word = await fetch("./getword/" + id).then(response => response.json());
-    return word.word;
-  }
-
   let guessedWordCount = 0;
 
   const keys = document.querySelectorAll('.key-row button');
@@ -91,12 +76,12 @@ document.addEventListener("DOMContentLoaded",async () =>{
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
 
-    let colors = await postData('/handler', { word: currentWord })
+    // Get colors of the guess from the server
+    let colors = await postData('/checkword', { word: currentWord })
       .then(data => {
     return data; // JSON data parsed by `data.json()` call
     });
 
-    console.log("colors:" + colors);
 
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
@@ -106,7 +91,14 @@ document.addEventListener("DOMContentLoaded",async () =>{
         const letterId = firstLetterId + index;
         const letterEl = document.getElementById(letterId);
         
-        const tileColor = getTileColor(letter, index, currentWordArr);
+        let color = colors[index]; // Set the correct color for the tile
+
+        // 
+        switch (color) {
+          case "correct": tileColor = "rgb(83, 141, 78)"; break; // If correct make tile green
+          case "present": tileColor = "rgb(181, 159, 59)"; break; // If present make tile yellow
+          case "absent": tileColor = "rgb(58,58,60)"; break; // If absent make tile grey
+        }
         
         letterEl.classList.add("animate__flipInX");
         letterEl.style = `outline-color:${tileColor};background-color:${tileColor};`
@@ -120,9 +112,10 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     guessedWordCount += 1;
 
-    // WInning guess
-    if (currentWord === word){
-      
+    // Check if the word is a winner by checking colors (ALL THE LETTERS ARE GREEN)
+    // I could have used another post request to check if the word is a winner, but seems like a waste
+    if (colors == ['rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)']){
+      window.alert("You win!");
       return;
     }
 
@@ -137,43 +130,8 @@ document.addEventListener("DOMContentLoaded",async () =>{
     const code = await fetch("https://dictionary-dot-sse-2020.nw.r.appspot.com/" + word_).then(function(response){
       return response.status
   })
-    console.log(code);
     return code === 200;
 }
-
-  function getTileColor(letter, index, currentWordArr){
-
-    const letterInThatPosition = word.charAt(index);
-    const isCorrectPosition = letter === letterInThatPosition;
-    const isCorrectLetter = word.includes(letter);
-
-    // IF correct position, return green
-    if (isCorrectPosition){
-      return "rgb(83, 141, 78)";
-    }
-
-    // Make sure only one square is yellow for the same letters
-    let letterCount = 0;
-    let firstLetter = true;
-    currentWordArr.forEach((countedLetter, i) => {
-      if (countedLetter == letter){
-        letterCount += 1;
-        if (i < index){
-          firstLetter = false;
-        }
-      }
-
-    });
-
-     // If the letter is in the word, return yellow
-     if (isCorrectLetter && firstLetter){
-      return "rgb(181, 159, 59)";
-    }
-
-    // Otherwise, return grey
-    return "rgb(58,58,60)";
-
-  }
 
   function deleteLetter(){
     const currentWordArr = getCurrentWordArr();
@@ -203,7 +161,6 @@ document.addEventListener("DOMContentLoaded",async () =>{
       availableSpaceEl.style = 'outline-color:rgb(58,58,60)';
       availableSpaceEl.textContent = letter;
     }
-    console.log(guessedWords);
   }
 
   function createTiles(){

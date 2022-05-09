@@ -21,6 +21,7 @@ async function postWord(req,res){
   res.send(colors);
 }
 
+
 async function getWord(req, res) {
   const result = await db.findWord(req.params.id);
   if (!result) {
@@ -32,8 +33,7 @@ async function getWord(req, res) {
 
 
 app.get('/getword/:id', asyncWrap(getWord));
-
-app.post('/handler', asyncWrap(postWord));
+app.post('/checkword', asyncWrap(postWord));
 
 // Wrap async function for express.js error handling
 function asyncWrap(f){

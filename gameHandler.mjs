@@ -1,19 +1,21 @@
+import * as db from './dbHandler.mjs';
 
-// Gets todays date then creates an ID for it
-let date = new Date().toISOString().split('T')[0];
-let year = date.split('-')[0];
-let month = date.split('-')[1];
-let day = date.split('-')[2];
-const dayId = (year+month+day) % 2309; //2309 is the amount of words in the database
+let dailyWord;
 
-const dailyWord = "hello"
-console.log(dailyWord);
+makeDailyWord();
 
-// // Gets word with the id of the current day
-// async function dailyWord(id){
-//   const word = await fetch("./getword/" + id).then(response => response.json());
-//   return word.word;
-// }
+async function makeDailyWord(){
+  // Gets todays date then creates an ID for it
+  let date = new Date().toISOString().split('T')[0];
+  let year = date.split('-')[0];
+  let month = date.split('-')[1];
+  let day = date.split('-')[2];
+  const dayId = (year+month+day) % 2309; //2309 is the amount of words in the database
+
+  const word = await db.findWord(dayId);
+  dailyWord = word.word;
+  console.log(`Todays word: ${dailyWord}`);
+}
 
 export async function checkWord(word){
   const wordArr = word.split('');
@@ -31,12 +33,12 @@ function getTileColor(typedLetter, index, wordArr){
   const isCorrectPosition = typedLetter === letterInThatPosition;
   const isCorrectLetter = dailyWord.includes(typedLetter);
 
-  // IF correct position, return green
+  // IF correct position, return correct
   if (isCorrectPosition){
-    return "rgb(83, 141, 78)";
+    return "correct";
   }
 
-  // Make sure only one square is yellow for the same letters
+  // Make sure only one square is "present" for multiple present letters
   let letterCount = 0;
   let firstLetter = true;
   wordArr.forEach((countedLetter, i) => {
@@ -51,13 +53,9 @@ function getTileColor(typedLetter, index, wordArr){
 
    // If the letter is in the word, return yellow
    if (isCorrectLetter && firstLetter){
-    return "rgb(181, 159, 59)";
+    return "present";
   }
 
   // Otherwise, return grey
-  return "rgb(58,58,60)";
-}
-
-export function winner(guessedWord){
-  return guessedWord === dailyWord;
+  return "absent";
 }
