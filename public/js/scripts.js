@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded",async () =>{
   createTiles();
   createKeyboard();
 
-  let guessedWords = [[]];
-  let availableSpace = 1;
+  let guessedWords = [[]]; // Stores the users guessed words
+  let availableSpace = 1; // Used to determine where the most recent letter was typed
 
   // Gets todays date then gets the word for it
   let date = new Date().toISOString().split('T')[0];
@@ -90,6 +90,13 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
+
+    let colors = await postData('/handler', { word: currentWord })
+      .then(data => {
+    return data; // JSON data parsed by `data.json()` call
+    });
+
+    console.log("colors:" + colors);
 
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
@@ -242,6 +249,18 @@ document.addEventListener("DOMContentLoaded",async () =>{
         newKey.classList.add("larger");
       }
     }
+  }
+
+  async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
   }
 
 })
