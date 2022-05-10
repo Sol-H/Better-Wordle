@@ -29,6 +29,8 @@ export async function checkWord(word){
 // Takes a letter, the index of that letter, and the array of the currentWord being registered
 function getTileColor(typedLetter, index, wordArr){
 
+  makeDailyWord();
+
   const letterInThatPosition = dailyWord.charAt(index);
   const isCorrectPosition = typedLetter === letterInThatPosition;
   const isCorrectLetter = dailyWord.includes(typedLetter);
