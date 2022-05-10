@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded",async () =>{
+
   createTiles();
   createKeyboard();
 
@@ -6,6 +7,30 @@ document.addEventListener("DOMContentLoaded",async () =>{
   let availableSpace = 1; // Used to determine where the most recent letter was typed
 
   let guessedWordCount = 0;
+
+  // Creates a string for midnight the day after the current date, used for cookies
+  let date = new Date();
+  let tomorrow = new Date(date);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  let tomorrowstr = tomorrow.toUTCString().split(' ')
+  tomorrowstr[4] = '00:00:00';
+  tomorrowstr = tomorrowstr.join(' ');
+
+  loadFromCookies();
+
+  async function loadFromCookies(){
+    let cookies = document.cookie;
+    for (ck of cookies.split(' ')) {
+      let ckWord = ck.split('=')[1];
+      for(ckLetter of ckWord){
+        if (ckLetter !== ';'){
+          updateGuessedWords(ckLetter)
+        }
+      }
+      await submitWord();
+    } 
+  }
+  
 
   const keys = document.querySelectorAll('.key-row button');
 
@@ -114,15 +139,19 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     // Check if the word is a winner by checking status of all the letters in the guess
     if (String(results) == "correct,correct,correct,correct,correct"){
+      document.cookie = `word${guessedWords.length}=${currentWord}; expires=${tomorrowstr}; path=/;`;
       window.alert("You win!");
       return;
     }    
 
     if (guessedWords.length === 6){
-      window.alert(`Sorry, you have no more guesses! The word is ${word}!`);
+      window.alert(`Sorry, you have no more guesses`);
     }  
 
-    guessedWords.push([]);
+    let guessedLen = guessedWords.push([]);
+
+    // Creates cookie so that data is saved until the next day
+    document.cookie = `word${guessedLen - 1}=${currentWord}; expires=${tomorrowstr}; path=/;`;
   }
 
   async function checkRealWord(word_){
