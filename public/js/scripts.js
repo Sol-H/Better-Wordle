@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded",async () =>{
     const firstLetterId = guessedWordCount * 5 +1;
     const interval = 200;
 
-    // Get colors of the guess from the server
-    let colors = await postData('/checkword', { word: currentWord })
+    // Get status of the guess from the server
+    let results = await postData('/checkword', { word: currentWord })
       .then(data => {
     return data; // JSON data parsed by `data.json()` call
     });
@@ -91,10 +91,10 @@ document.addEventListener("DOMContentLoaded",async () =>{
         const letterId = firstLetterId + index;
         const letterEl = document.getElementById(letterId);
         
-        let color = colors[index]; // Set the correct color for the tile
+        let result = results[index]; // Set the correct color for the tile
 
         // 
-        switch (color) {
+        switch (result) {
           case "correct": tileColor = "rgb(83, 141, 78)"; break; // If correct make tile green
           case "present": tileColor = "rgb(181, 159, 59)"; break; // If present make tile yellow
           case "absent": tileColor = "rgb(58,58,60)"; break; // If absent make tile grey
@@ -112,12 +112,11 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     guessedWordCount += 1;
 
-    // Check if the word is a winner by checking colors (ALL THE LETTERS ARE GREEN)
-    // I could have used another post request to check if the word is a winner, but seems like a waste
-    if (colors == ['rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)', 'rgb(83, 141, 78)']){
+    // Check if the word is a winner by checking status of all the letters in the guess
+    if (String(results) == "correct,correct,correct,correct,correct"){
       window.alert("You win!");
       return;
-    }
+    }    
 
     if (guessedWords.length === 6){
       window.alert(`Sorry, you have no more guesses! The word is ${word}!`);
