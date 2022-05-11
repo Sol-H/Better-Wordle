@@ -12,24 +12,23 @@ document.addEventListener("DOMContentLoaded",async () =>{
   // Creates a string for midnight the day after the current date, used for cookies
   let date = new Date();
   let tomorrow = new Date(date);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setTime(tomorrow.getTime() - 3600000); // take away an hour because we are in BST
+  tomorrow.setTime(tomorrow.getTime() + 3600000); // take away an hour because we are in BST
   console.log(tomorrow);
-  let tomorrowstr = tomorrow.toUTCString().split(' ');
-  tomorrowstr[4] = '00:00:00';
-  tomorrowstr[5] = "";
+  let tomorrowstr = tomorrow.toString().split(' ');
+  tomorrowstr[4] = '23:00:00';
+  tomorrowstr.splice(5,4) // Remove the last parts of the string to fix the standard for cookies
   tomorrowstr = tomorrowstr.join(' ');
 
   console.log(tomorrowstr);
 
-  //document.cookie = `info=;expires=${tomorrowstr}; path=/;`
+  document.cookie = `info=;expires=${tomorrowstr}; path=/;`
 
-  // document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
+  document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
 
 
   // Stats Modal stuff
