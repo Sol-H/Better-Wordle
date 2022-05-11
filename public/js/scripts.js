@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
   console.log(tomorrow);
   let tomorrowstr = tomorrow.toString().split(' ');
   tomorrowstr[4] = '23:00:00';
-  tomorrowstr.splice(5,4) // Remove the last parts of the string to fix the standard for cookies
+  tomorrowstr.splice(6,3) // Remove the last parts of the string to fit the standard for cookies
   tomorrowstr = tomorrowstr.join(' ');
 
   console.log(tomorrowstr);
@@ -195,7 +195,8 @@ document.addEventListener("DOMContentLoaded",async () =>{
       // Makes stats modal visible
       statsModal.style.display = "block";
       makeScore();
-      statsContent.textContent = `Soldle Score: ${guessedWordCount}/6`;
+      statsContent.textContent = `Soldle Score: ${guessedWordCount}/6`;''
+      Toast("You win!")
       return;
     }    
 
@@ -294,18 +295,14 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
   function makeScore(){
     let newScore = `Soldle Score: ${guessedWordCount}/6\n\n`;
-    console.log(score.split("\n"));
     for (const line of score.split("\n")){
-      console.log(line);
       for (let stat of line.split(",")){
-        console.log(stat);
         switch (stat) {
           case "correct": stat = '🟩 '; break; // If correct make tile green
           case "present": stat = '🟨 '; break; // If present make tile yellow
           case "absent": stat = '⬛ '; break; // If absent make tile grey
         }
         newScore += stat
-        console.log(stat);
       }
       newScore += '\n'
     }
@@ -343,7 +340,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
           infoModal.style.display = "block";
           document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
         }
-      if(ckWord.length >0){
+      if(ckWord.split().length >0){
         await submitWord();
       }
     } 
