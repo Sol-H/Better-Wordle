@@ -292,7 +292,7 @@ nav.flexbox {
   border: 1px solid rgb(197, 197, 197);
   border-radius: 25px;
   height: 10%;
-  width: 30%;
+  width: 20%;
 
   animation-name: animatetop;
   animation-duration: 0.4s

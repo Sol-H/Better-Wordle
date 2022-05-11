@@ -13,9 +13,14 @@ document.addEventListener("DOMContentLoaded",async () =>{
   let date = new Date();
   let tomorrow = new Date(date);
   tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setTime(tomorrow.getTime() - 3600000); // take away an hour because we are in BST
+  console.log(tomorrow);
   let tomorrowstr = tomorrow.toUTCString().split(' ');
   tomorrowstr[4] = '00:00:00';
+  tomorrowstr[5] = "";
   tomorrowstr = tomorrowstr.join(' ');
+
+  console.log(tomorrowstr);
 
   //document.cookie = `info=;expires=${tomorrowstr}; path=/;`
 
@@ -26,29 +31,56 @@ document.addEventListener("DOMContentLoaded",async () =>{
   // document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
   // document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
 
-  // This is ran at the bottom of the script so everything is defined
-  async function loadFromCookies(){
-    let cookies = document.cookie;
-    console.log(cookies);
-    for (ck of cookies.split(' ')) {
-      let ckKey = ck.split('=')[0];
-      let ckWord = ck.split('=')[1];
-      // Load the words from cookies
-      if (ckKey.includes('word')){
-        for(ckLetter of ckWord){
-          if (ckLetter !== ';'){
-            updateGuessedWords(ckLetter)
-          }
-        }
-      } // Info modal
-      if(!cookies.includes('info=read')){
-          infoModal.style.display = "block";
-          document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
-        }
-      await submitWord();
-    } 
+
+  // Stats Modal stuff
+  const statsModal = document.querySelector("#statsModal");
+  const statsClose = document.querySelector("#statsClose");
+  const statsBtn = document.querySelector("#stats");
+  const statsContent = document.querySelector("#statsContent");
+
+  
+
+  statsBtn.onclick = function() {
+    statsModal.style.display = "block";
+  }
+
+  statsClose.onclick = function() {
+    statsModal.style.display = "none";
   }
   
+  window.onclick = function(event) {
+    if (event.target == statsModal) {
+      statsModal.style.display = "none";
+    }
+  } 
+
+  // INfo Modal stuff
+  const infoModal = document.querySelector("#infoModal");
+  const infoClose = document.querySelector("#infoClose");
+  const infoBtn = document.querySelector("#info");
+
+
+  infoBtn.onclick = function() {
+    infoModal.style.display = "block";
+  }
+
+  infoClose.onclick = function() {
+    infoModal.style.display = "none";
+  }
+  
+  window.onclick = function(event) {
+    if (event.target == infoModal) {
+      infoModal.style.display = "none";
+    }
+  } 
+
+  // Toast stuff
+  
+  const toast = document.querySelector(".toast") ;
+  const toastContent = document.querySelector(".toast-content");
+
+
+  loadFromCookies();
 
   const keys = document.querySelectorAll('.key-row button');
 
@@ -114,7 +146,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
     if (!isRealWord){
       toast.style.display = "block"; // Show toast
       setTimeout(() =>{
-        toastContent.classList.add("animate__fadeOutUp");
+        toastContent.classList.add("animate__fadeOutUp"); // Adds animation to show toast fading away
       }, 1000);
       setTimeout(() =>{
         toast.style.display = "none";
@@ -268,7 +300,6 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
   function makeScore(){
     let newScore = `Soldle Score: ${guessedWordCount}/6\n\n`;
-    console.log(score);
     console.log(score.split("\n"));
     for (const line of score.split("\n")){
       console.log(line);
@@ -289,55 +320,28 @@ document.addEventListener("DOMContentLoaded",async () =>{
     navigator.clipboard.writeText(score);
   }
 
-  // Stats Modal stuff
-  const statsModal = document.getElementById("statsModal");
-  const statsClose = document.getElementsByClassName("close")[0];
-  const statsBtn = document.getElementById("stats");
-  const statsContent = document.getElementById("statsContent");
 
-  
-
-  statsBtn.onclick = function() {
-    statsModal.style.display = "block";
-  }
-
-  statsClose.onclick = function() {
-    statsModal.style.display = "none";
-  }
-  
-  window.onclick = function(event) {
-    if (event.target == statsModal) {
-      statsModal.style.display = "none";
-    }
-  } 
-
-  // INfo Modal stuff
-  const infoModal = document.getElementById("infoModal");
-  const infoClose = document.getElementsByClassName("close")[1];
-  const infoBtn = document.getElementById("info");
-
-
-  infoBtn.onclick = function() {
-    infoModal.style.display = "block";
-  }
-
-  infoClose.onclick = function() {
-    infoModal.style.display = "none";
+  async function loadFromCookies(){
+    let cookies = document.cookie;
+    for (ck of cookies.split(' ')) {
+      let ckKey = ck.split('=')[0];
+      let ckWord = ck.split('=')[1];
+      // Load the words from cookies
+      if (ckKey.includes('word')){
+        for(ckLetter of ckWord){
+          if (ckLetter !== ';'){
+            updateGuessedWords(ckLetter)
+          }
+        }
+      } // Info modal
+      if(!cookies.includes('info=read')){
+          infoModal.style.display = "block";
+          document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
+        }
+      await submitWord();
+    } 
   }
   
-  window.onclick = function(event) {
-    if (event.target == infoModal) {
-      infoModal.style.display = "none";
-    }
-  } 
-
-  // Toast stuff
-  
-  const toast = document.getElementById("notRealWord") ;
-  const toastContent = document.getElementById("toastContent");
-
-
-  loadFromCookies();
 
   async function postData(url = '', data = {}) {
     const response = await fetch(url, {

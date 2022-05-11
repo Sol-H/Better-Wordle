@@ -21,19 +21,20 @@ async function postWord(req,res){
   res.send(results);
 }
 
-
-async function getWord(req, res) {
-  const result = await db.findWord(req.params.id);
-  if (!result) {
-    res.status(404).send('No match for that ID.');
-    return;
-  }
-  res.json(result);
-}
-
-
-app.get('/getword/:id', asyncWrap(getWord));
 app.post('/checkword', asyncWrap(postWord));
+
+// async function getWord(req, res) {
+//   const result = await db.findWord(req.params.id);
+//   if (!result) {
+//     res.status(404).send('No match for that ID.');
+//     return;
+//   }
+//   res.json(result);
+// }
+
+
+// app.get('/getword/:id', asyncWrap(getWord));
+
 
 // Wrap async function for express.js error handling
 function asyncWrap(f){
