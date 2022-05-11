@@ -19,6 +19,7 @@ async function makeDailyWord(){
   dailyWord = word.word;
 }
 
+
 export async function checkWord(word){
   makeDailyWord();
   const wordArr = word.split('');

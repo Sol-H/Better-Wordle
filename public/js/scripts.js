@@ -21,15 +21,6 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
   console.log(tomorrowstr);
 
-  // document.cookie = `info=;expires=${tomorrowstr}; path=/;`
-
-  // document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
-  // document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
-
 
   // Stats Modal stuff
   const statsModal = document.querySelector("#statsModal");

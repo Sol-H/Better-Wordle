@@ -14,6 +14,10 @@ const words = text.split(',');
 
 populateDb();
 
+export async function storeGame(gameResults){
+    return gameResults;
+}
+
 async function populateDb(){
     const db = await dbConn;
     let insert = 'INSERT OR IGNORE INTO Words (word_id, word) VALUES (?, ?)';

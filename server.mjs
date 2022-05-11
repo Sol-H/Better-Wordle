@@ -21,6 +21,12 @@ async function postWord(req,res){
   res.send(results);
 }
 
+async function postGame(req, res){
+  let game = req.body.game;
+  let stats = await db.storeGame(gameResults);
+  res.send(stats);
+}
+
 app.post('/checkword', asyncWrap(postWord));
 
 // async function getWord(req, res) {
