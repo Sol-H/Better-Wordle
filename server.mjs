@@ -17,8 +17,8 @@ app.listen(8080, () => {
 
 async function postWord(req,res){
   let word = req.body.word;
-  let colors = await gameHandler.checkWord(word);
-  res.send(colors);
+  let results = await gameHandler.checkWord(word);
+  res.send(results);
 }
 
 

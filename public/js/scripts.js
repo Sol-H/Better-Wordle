@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
   createTiles();
   createKeyboard();
 
+  let score = "";
   let guessedWords = [[]]; // Stores the users guessed words
   let availableSpace = 1; // Used to determine where the most recent letter was typed
 
@@ -12,21 +13,38 @@ document.addEventListener("DOMContentLoaded",async () =>{
   let date = new Date();
   let tomorrow = new Date(date);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  let tomorrowstr = tomorrow.toUTCString().split(' ')
+  let tomorrowstr = tomorrow.toUTCString().split(' ');
   tomorrowstr[4] = '00:00:00';
   tomorrowstr = tomorrowstr.join(' ');
 
-  loadFromCookies();
+  //document.cookie = `info=;expires=${tomorrowstr}; path=/;`
 
+  // document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
+
+  // This is ran at the bottom of the script so everything is defined
   async function loadFromCookies(){
     let cookies = document.cookie;
+    console.log(cookies);
     for (ck of cookies.split(' ')) {
+      let ckKey = ck.split('=')[0];
       let ckWord = ck.split('=')[1];
-      for(ckLetter of ckWord){
-        if (ckLetter !== ';'){
-          updateGuessedWords(ckLetter)
+      // Load the words from cookies
+      if (ckKey.includes('word')){
+        for(ckLetter of ckWord){
+          if (ckLetter !== ';'){
+            updateGuessedWords(ckLetter)
+          }
         }
-      }
+      } // Info modal
+      if(!cookies.includes('info=read')){
+          infoModal.style.display = "block";
+          document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
+        }
       await submitWord();
     } 
   }
@@ -94,7 +112,14 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     //Make sure the word is in the dictionary
     if (!isRealWord){
-      alert("Not a real word!")
+      toast.style.display = "block"; // Show toast
+      setTimeout(() =>{
+        toastContent.classList.add("animate__fadeOutUp");
+      }, 1000);
+      setTimeout(() =>{
+        toast.style.display = "none";
+        toastContent.classList.remove("animate__fadeOutUp");
+      }, 1200);
       return;
     }
 
@@ -107,6 +132,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
     return data; // JSON data parsed by `data.json()` call
     });
 
+    score += results.toString() + '\n';
 
     //Set colours and animations for the current word
     currentWordArr.forEach((letter, index) => {
@@ -140,7 +166,10 @@ document.addEventListener("DOMContentLoaded",async () =>{
     // Check if the word is a winner by checking status of all the letters in the guess
     if (String(results) == "correct,correct,correct,correct,correct"){
       document.cookie = `word${guessedWords.length}=${currentWord}; expires=${tomorrowstr}; path=/;`;
-      window.alert("You win!");
+      // Makes stats modal visible
+      statsModal.style.display = "block";
+      makeScore();
+      statsContent.textContent = `Soldle Score: ${guessedWordCount}/6`;
       return;
     }    
 
@@ -190,6 +219,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
       availableSpaceEl.textContent = letter;
     }
   }
+   
 
   function createTiles(){
     const board = document.querySelector('#board');
@@ -235,6 +265,79 @@ document.addEventListener("DOMContentLoaded",async () =>{
       }
     }
   }
+
+  function makeScore(){
+    let newScore = `Soldle Score: ${guessedWordCount}/6\n\n`;
+    console.log(score);
+    console.log(score.split("\n"));
+    for (const line of score.split("\n")){
+      console.log(line);
+      for (let stat of line.split(",")){
+        console.log(stat);
+        switch (stat) {
+          case "correct": stat = '🟩 '; break; // If correct make tile green
+          case "present": stat = '🟨 '; break; // If present make tile yellow
+          case "absent": stat = '⬛ '; break; // If absent make tile grey
+        }
+        newScore += stat
+        console.log(stat);
+      }
+      newScore += '\n'
+    }
+    console.log(newScore);
+    score = newScore;
+    navigator.clipboard.writeText(score);
+  }
+
+  // Stats Modal stuff
+  const statsModal = document.getElementById("statsModal");
+  const statsClose = document.getElementsByClassName("close")[0];
+  const statsBtn = document.getElementById("stats");
+  const statsContent = document.getElementById("statsContent");
+
+  
+
+  statsBtn.onclick = function() {
+    statsModal.style.display = "block";
+  }
+
+  statsClose.onclick = function() {
+    statsModal.style.display = "none";
+  }
+  
+  window.onclick = function(event) {
+    if (event.target == statsModal) {
+      statsModal.style.display = "none";
+    }
+  } 
+
+  // INfo Modal stuff
+  const infoModal = document.getElementById("infoModal");
+  const infoClose = document.getElementsByClassName("close")[1];
+  const infoBtn = document.getElementById("info");
+
+
+  infoBtn.onclick = function() {
+    infoModal.style.display = "block";
+  }
+
+  infoClose.onclick = function() {
+    infoModal.style.display = "none";
+  }
+  
+  window.onclick = function(event) {
+    if (event.target == infoModal) {
+      infoModal.style.display = "none";
+    }
+  } 
+
+  // Toast stuff
+  
+  const toast = document.getElementById("notRealWord") ;
+  const toastContent = document.getElementById("toastContent");
+
+
+  loadFromCookies();
 
   async function postData(url = '', data = {}) {
     const response = await fetch(url, {

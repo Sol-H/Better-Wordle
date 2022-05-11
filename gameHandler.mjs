@@ -6,7 +6,10 @@ makeDailyWord();
 
 async function makeDailyWord(){
   // Gets todays date then creates an ID for it
-  let date = new Date().toISOString().split('T')[0];
+  let utcDate = (new Date())
+  let date = new Date(utcDate);
+  date.setTime(date.getTime() + 3600000) // Add one hour because utc time is wrong
+  date = date.toISOString().split('T')[0];
   let year = date.split('-')[0];
   let month = date.split('-')[1];
   let day = date.split('-')[2];
@@ -14,10 +17,10 @@ async function makeDailyWord(){
 
   const word = await db.findWord(dayId);
   dailyWord = word.word;
-  console.log(`Todays word: ${dailyWord}`);
 }
 
 export async function checkWord(word){
+  makeDailyWord();
   const wordArr = word.split('');
   let colors = [];
   wordArr.forEach((letter, index) => {
@@ -28,8 +31,6 @@ export async function checkWord(word){
 
 // Takes a letter, the index of that letter, and the array of the currentWord being registered
 function getTileColor(typedLetter, index, wordArr){
-
-  makeDailyWord();
 
   const letterInThatPosition = dailyWord.charAt(index);
   const isCorrectPosition = typedLetter === letterInThatPosition;
