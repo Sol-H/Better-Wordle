@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
   // Creates a string for midnight the day after the current date, used for cookies
   let date = new Date();
-  let tomorrow = new Date(date);
-  tomorrow.setTime(tomorrow.getTime() + 3600000); // take away an hour because we are in BST
+  let tomorrow = new Date(date);// take away an hour because we are in BST
+  tomorrow.setDate(date.getDate() + 1);
   console.log(tomorrow);
   let tomorrowstr = tomorrow.toString().split(' ');
-  tomorrowstr[4] = '23:00:00';
+  tomorrowstr[4] = '00:00:00';
   tomorrowstr.splice(6,3) // Remove the last parts of the string to fit the standard for cookies
   tomorrowstr = tomorrowstr.join(' ');
 
@@ -340,10 +340,9 @@ document.addEventListener("DOMContentLoaded",async () =>{
           infoModal.style.display = "block";
           document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
         }
-      if(ckWord.split().length >0){
-        await submitWord();
-      }
+      await submitWord();
     } 
+    console.log(cookies);
   }
   
 
