@@ -21,14 +21,14 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
   console.log(tomorrowstr);
 
-  document.cookie = `info=;expires=${tomorrowstr}; path=/;`
+  // document.cookie = `info=;expires=${tomorrowstr}; path=/;`
 
-  document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
-  document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
-  document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
-  document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
-  document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
-  document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word1=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word2=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word3=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word4=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word5=; expires=${tomorrowstr}; path=/;`;
+  // document.cookie = `word6=; expires=${tomorrowstr}; path=/;`;
 
 
   // Stats Modal stuff
@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
   
   const toast = document.querySelector(".toast") ;
   const toastContent = document.querySelector(".toast-content");
+  const toastMessage = document.querySelector("#toastMessage");
 
 
   loadFromCookies();
@@ -134,6 +135,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     //Make sure the word is 5 letters long
     if (currentWordArr.length != 5){
+      Toast("Word is too short!");
       return;
     }
 
@@ -143,14 +145,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
 
     //Make sure the word is in the dictionary
     if (!isRealWord){
-      toast.style.display = "block"; // Show toast
-      setTimeout(() =>{
-        toastContent.classList.add("animate__fadeOutUp"); // Adds animation to show toast fading away
-      }, 1000);
-      setTimeout(() =>{
-        toast.style.display = "none";
-        toastContent.classList.remove("animate__fadeOutUp");
-      }, 1200);
+      Toast("Not in the word list!");
       return;
     }
 
@@ -319,6 +314,17 @@ document.addEventListener("DOMContentLoaded",async () =>{
     navigator.clipboard.writeText(score);
   }
 
+  function Toast(message){
+    toast.style.display = "block";
+      toastMessage.textContent = message // Show toast
+      setTimeout(() =>{
+        toastContent.classList.add("animate__fadeOutUp"); // Adds animation to show toast fading away
+      }, 1000);
+      setTimeout(() =>{
+        toast.style.display = "none";
+        toastContent.classList.remove("animate__fadeOutUp");
+      }, 1200);
+  }
 
   async function loadFromCookies(){
     let cookies = document.cookie;
@@ -337,7 +343,9 @@ document.addEventListener("DOMContentLoaded",async () =>{
           infoModal.style.display = "block";
           document.cookie = `info=read;expires=${tomorrowstr}; path=/;`
         }
-      await submitWord();
+      if(ckWord.length >0){
+        await submitWord();
+      }
     } 
   }
   
