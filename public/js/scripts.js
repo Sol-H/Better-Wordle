@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded",async () =>{
     
   }
 
-
   // Add event listeners to each key on the on screen keyboard
   function addKeyboardClicks(){
     for (let key of keys){
@@ -301,6 +300,7 @@ document.addEventListener("DOMContentLoaded",async () =>{
     score = newScore;
     navigator.clipboard.writeText(score);
   }
+  
 
   function Toast(message){
     toast.style.display = "block";
