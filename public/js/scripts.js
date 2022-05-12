@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   tomorrowstr.splice(6, 3); // Remove the last parts of the string to fit the standard for cookies
   tomorrowstr = tomorrowstr.join(' ');
 
+  loadFromCookies();
 
   // Toast stuff
 
@@ -73,10 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
 
-  loadFromCookies();
   if (!localStorage.getItem('scores')) {
     localStorage.setItem('scores', JSON.stringify({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, fail: 0 }));
   }
+
   loadStats();
 
   const keys = document.querySelectorAll('.key-row button');
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (letter === 'Backspace') {
+    if (letter === 'Backspace' && !gameOver) {
       deleteLetter();
       return;
     }
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        if (letter === 'del') {
+        if (letter === 'del' && !gameOver) {
           deleteLetter();
           return;
         }
@@ -209,6 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (guessedWords.length === 6) {
       Toast('No more guesses');
+      // Add cookie for the final word
+      document.cookie = `word${guessedWords.length}=${currentWord}; expires=${tomorrowstr}; path=/;`;
       // Add a fail to the stats in local storage
       const scores = JSON.parse(localStorage.getItem('scores'));
       scores.fail = scores[guessedWordCount] + 1;
@@ -216,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statsModal.style.display = 'block';
       gameOver = true;
       guessedWordCount = 'X';
+      statsContentScore.textContent = `Soldle Score: ${guessedWordCount}/6`;
       return;
     }
 
