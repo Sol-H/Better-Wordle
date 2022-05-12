@@ -17,7 +17,6 @@
   font-size: 16px;
 
   --header-height: 7.5vh;
-  --keyboard-height: 200px;
   --game-max-width: 30em;
   --game-max-height: 90vh;
   --color-tone-1: #ffffff;
@@ -52,13 +51,17 @@ html {
 
 body {
   height: 100%;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   background-color: var(--color-tone-7);
   color: var(--color-tone-1);
 }
 
 p {
+  text-align: center;
+}
+
+h1 {
   text-align: center;
 }
 
@@ -70,25 +73,22 @@ h2 {
   box-sizing: inherit;
 }
 
-i {
-    top: 10px;
-    left: 10px;
-    background-color: var(--color-tone-7);
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-    font-size: 1.5em;
-    font-weight: bold;
-    cursor: pointer;
+.navButton {
+  top: 1em;
+  left: 1em;
+  background-color: var(--color-tone-7);
+  width:2.2em;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-nav {
-  padding: 10px;
-  
-  @media (min-width: 600px){
-      padding: 20px;
-  }
+.navButton:hover,
+.navButton:focus {
+  opacity: 0.75;
+  cursor: pointer;
 }
+
+
 
 nav.flexbox {
   display: flex;
@@ -96,10 +96,10 @@ nav.flexbox {
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  padding: 0 75px;
+  padding: 0 5vw;
   height: var(--header-height);
   color: var(--color-tone-1);
-  border-bottom: 1px solid var(--color-tone-4);
+  border-bottom: 0.1em solid var(--color-tone-4);
 }
 
 
@@ -129,20 +129,17 @@ nav.flexbox {
 }
 
 .tile {
-  width: 60px;
-  height: 60px;
+  width: 8vh;
+  height: 8vh;
 
   outline-style: solid;
   outline-color: var(--color-tone-5);
-  outline-width: 2px;
+  outline-width: 0.05em;
 
   font-size: 2.75rem;
   font-weight: bold;
   color: var(--color-tone-1);
   text-transform: uppercase;
-
-  min-width: 30px;
-  min-height: 30px;
 
   display: flex;
   align-items: center;
@@ -151,14 +148,14 @@ nav.flexbox {
 
 #key-container {
   height: 30%;
-  margin: 3px;
+  margin: 1em;
 }
 
 .key-row{
   display: flex;
   justify-content: center;
   width: 100%;
-  margin: 0 auto 8px;
+  margin: 0 auto 0.4em;
   touch-action: manipulation;
 }
 
@@ -170,7 +167,7 @@ nav.flexbox {
     font-weight: bold;
     border: 0;
     padding: 0;
-    margin: 0 6px 0 0;
+    margin: 0 0.4em 0 0;
     height: 5em;
     border-radius: 0.25em;
     cursor: pointer;
@@ -194,20 +191,6 @@ nav.flexbox {
   gap: 0.5em;
 }
 
-#stats:hover,
-#stats:focus {
-  color: rgb(168, 168, 168);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-#info:hover,
-#info:focus {
-  color: rgb(168, 168, 168);
-  text-decoration: none;
-  cursor: pointer;
-}
 
 /* The Modal (background) */
 #statsModal {
@@ -242,7 +225,7 @@ nav.flexbox {
 .close {
   color: rgb(246, 246, 246);
   float: right;
-  font-size: 28px;
+  font-size: 3em;
   font-weight: bold;
 }
 
@@ -255,21 +238,22 @@ nav.flexbox {
 
 /* Modal Header */
 .modal-header {
-  padding: 2px 16px;
+  padding: 0.25em 1em;
   background-color: var(--color-tone-6);
   color: white;
-  border-radius: 25px;
+  border-radius: 1em;
 }
 
 /* Modal Body */
-.modal-body {padding: 2px 16px;}
+.modal-body {padding: 0.25em 1em;}
 
 /* Modal Footer */
 .modal-footer {
-  padding: 2px 16px;
+  padding: 0.25em 1em;
   background-color: var(--color-tone-6);
   color: white;
-  border-radius: 25px;
+  border-radius: 1em;
+  text-align: center;
 }
 
 /* Modal Content */
@@ -278,12 +262,11 @@ nav.flexbox {
   background-color: var(--color-tone-6);
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
-  width: 75%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  width: 30em;
+  box-shadow: 0 0.25em 0.5em 0 rgba(0,0,0,0.2),0 0.25em 0.5em 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
   animation-duration: 0.4s;
-  border-radius: 25px;
+  border-radius: 0.5em;
 }
 
 /* The Toast (background) */
@@ -304,8 +287,8 @@ nav.flexbox {
   background-color: rgb(204, 204, 204);
   margin: auto;
   padding: 0;
-  border: 1px solid rgb(197, 197, 197);
-  border-radius: 25px;
+  border: 0.25em solid rgb(197, 197, 197);
+  border-radius: 1em;
   height: 10%;
   width: 20%;
 
@@ -315,19 +298,49 @@ nav.flexbox {
 
 /* toast body */
 .toast-body {
-  padding: 2px 16px;
+  padding: 0.1em 0.1em;
   color:rgba(0, 0, 0, 0.5);
   text-align:center;
 }
 
 /* Modal animation */
 @keyframes animatetop {
-  from {top: -300px; opacity: 0}
+  from {top: -30vh; opacity: 0}
   to {top: 0; opacity: 1}
 }
 
-/* Toast animation */
-@keyframes animatefade {
-  from {top: -300px; opacity: 1}
-  to {top: 0; opacity: 0}
+svg {
+  background: rgb(166, 166, 166);
+  transform: translateY(0.75em);
+  margin: 0.15em;
+}
+text {
+  bottom: 5em;
+}
+
+#shareButton {
+  display: none;
+  align-self: center;
+  background-color: var(--color-tone-1);
+  border-radius: 0.5em;
+  margin: 1.25em 0;
+  border: none;
+  width:5em;
+  height: 2.2em;
+  font-weight: bold;
+  font-size:1.75em;
+  cursor: pointer;
+}
+
+#shareButton:hover{
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.shareImage {
+  margin: 0 1em;
+  border: none;
+  width:1em;
+  font-weight: bold;
+  cursor: pointer;
 }

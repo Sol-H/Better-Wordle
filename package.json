@@ -24,5 +24,16 @@
     "fs": "^0.0.1-security",
     "sqlite": "^3.0.6",
     "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-portsoc": "^1.0.0"
+  },
+  "eslintConfig": {
+    "extends": "portsoc",
+    "root": true,
+    "env": {
+      "browser": true
+    }
   }
 }

@@ -18,7 +18,6 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" crossorigin="anonymous">
 
 </head>
 <!-- Stats Modal -->
@@ -27,13 +26,12 @@
 <div class="modal-content">
   <div class="modal-header">
     <span id="statsClose" class="close">&times;</span>
-    <h2>Statistics</h2>
+    <h1>Statistics</h1>
   </div>
-  <div class="modal-body">
-    <p id="statsContent">Your statistics will show up here after you finish the game!</p>
-    <p>Your result is copied to your clipboard.</p>
-    <p>Share and compare with your friends!</p>
+  <div class="modal-body" id="statsContent">
+    <h2 id="statsContentScore">This games score will show up after you finish the game!</h2>
   </div>
+  <div class="modal-footer"><button id="shareButton">Share <img src="./assets/share.svg" class="shareImage"></img></button></div>
 
 </div>
 </div>
@@ -96,9 +94,9 @@
   <script src="js/scripts.js"></script>
 
 <nav class="flexbox">
-  <i id="info" class="fas fa-circle-info navbutton"></i>
+  <img id="info" src="./assets/info.svg" alt="Info" class="navButton"></img>
   <h1 id="title">Soldle (Better Wordle)</h1>
-  <i id="stats" class="fas fa-ranking-star navbutton"></i>
+  <img id="stats"src="./assets/stats.svg" alt="Info" class="navButton"></img>
 </nav>
 
 

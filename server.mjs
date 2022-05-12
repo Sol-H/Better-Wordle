@@ -1,10 +1,8 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import * as db from './dbHandler.mjs'
-import * as gameHandler from './gameHandler.mjs'
+import express from 'express';
+import bodyParser from 'body-parser';
+import * as gameHandler from './gameHandler.mjs';
 
 const app = express();
-const router = express.Router();
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,28 +10,22 @@ app.use(bodyParser.json());
 
 
 app.listen(8080, () => {
-    console.log("App listening at http://localhost:8080");
-})
+  console.log('App listening at http://localhost:8080');
+});
 
-async function postWord(req,res){
-  let word = req.body.word;
-  let results = await gameHandler.checkWord(word);
+async function postWord(req, res) {
+  const word = req.body.word;
+  const results = await gameHandler.checkWord(word);
   res.send(results);
-}
-
-async function postGame(req, res){
-  let game = req.body.game;
-  let stats = await db.storeGame(gameResults);
-  res.send(stats);
 }
 
 app.post('/checkword', asyncWrap(postWord));
 
 
 // Wrap async function for express.js error handling
-function asyncWrap(f){
+function asyncWrap(f) {
   return (req, res, next) => {
     Promise.resolve(f(req, res, next))
-    .catch((e) => next(e || new Error()));
+      .catch((e) => next(e || new Error()));
   };
 }
