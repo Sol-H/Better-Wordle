@@ -25,13 +25,13 @@ export function checkWord(word) {
   const wordArr = word.split('');
   const colors = [];
   wordArr.forEach((letter, index) => {
-    colors.push(getTileColor(letter, index, wordArr));
+    colors.push(getTileStatus(letter, index, wordArr));
   });
   return colors;
 }
 
 // Takes a letter, the index of that letter, and the array of the currentWord being registered
-function getTileColor(typedLetter, index, wordArr) {
+function getTileStatus(typedLetter, index, wordArr) {
   const letterInThatPosition = dailyWord.charAt(index);
   const isCorrectPosition = typedLetter === letterInThatPosition;
   const isCorrectLetter = dailyWord.includes(typedLetter);

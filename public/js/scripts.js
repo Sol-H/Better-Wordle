@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make sure only letters are allowed.
     if (letter.match(/^[a-z]$/)) {
       // Append letter to the current word array.
-      updateGuessedWords(letter);
+      pushGuessedWords(letter);
     }
   }
 
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        updateGuessedWords(letter);
+        pushGuessedWords(letter);
       };
     }
   }
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return guessedWords[numberOfGuessedWords - 1];
   }
 
-  function updateGuessedWords(letter) {
+  function pushGuessedWords(letter) {
     // Array of the current word being typed.
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr && currentWordArr.length < 5) {
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (ckKey.includes('word')) {
         for (const ckLetter of ckWord) {
           if (ckLetter !== ';') {
-            updateGuessedWords(ckLetter);
+            pushGuessedWords(ckLetter);
           }
         }
         await submitWord();
