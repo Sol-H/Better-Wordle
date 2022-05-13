@@ -116,7 +116,7 @@ nav.flexbox {
   outline-color: var(--color-tone-3);
   outline-width: 0.05em;
 
-  font-size: 2.75rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--color-tone-1);
   text-transform: uppercase;
@@ -335,10 +335,11 @@ text {
   align-self: center;
   background-color: var(--color-tone-1);
   border-radius: 0.5em;
-  margin: 1.25em 0;
+  margin: 0.5em 0;
+  padding: 0.1em;
   border: none;
   width:5em;
-  height: 2.2em;
+  height: 2.3em;
   font-weight: bold;
   font-size:1.75em;
   cursor: pointer;

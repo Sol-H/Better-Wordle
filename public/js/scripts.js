@@ -165,8 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // The id will change depending on which row the first letter is on.
     const firstLetterId = guessedWordCount * 5 + 1;
-    const interval = 200;
+    // Time between each letter showing up
+    const interval = 500;
 
     // Get status of the guess from the server
     const results = await postData('/checkword', { word: currentWord })
@@ -213,7 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add cookie for the game over status, so scores cant be saved twice
       document.cookie = `gameOver=true; expires=${tomorrow}; path=/;`;
       // Makes stats modal visible
-      statsModal.style.display = 'block';
+      setTimeout(() => {
+        statsModal.style.display = 'block';
+      }, 2500);
 
       if (!gameOver) {
         const scores = JSON.parse(localStorage.getItem('scores'));
@@ -244,7 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
       scores.fail = scores.fail + 1;
       localStorage.setItem('scores', JSON.stringify(scores));
       localStorage.setItem('streak', JSON.stringify({ amount: 0 }));
-      statsModal.style.display = 'block';
+      // Show the stats modal
+      setTimeout(() => {
+        statsModal.style.display = 'block';
+      }, 2500);
+
       gameOver = true;
       guessedWordCount = 'X';
       statsContentScore.textContent = `Soldle Score: ${guessedWordCount}/6`;
@@ -277,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentTile.textContent = '';
       currentTile.style = 'outline-color: #565758;';
-      console.log('hi');
       currentTileId = currentTileId - 1;
     }
   }
@@ -298,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Increments available space so that the next tile can be used next time
       currentTileId += 1;
       // Makes outline colour a different shade to show tile is typed.
-      currentTile.style = 'outline-color:rgb(58,58,60)';
+      currentTile.style = 'outline-color:#818384';
       // Put the current typed letter into the tile.
       currentTile.textContent = letter;
     }
@@ -374,7 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const winStreak = JSON.parse(localStorage.getItem('streak'));
     const played = getTimesPlayed(scores);
     const winPercent = getWinPercent(scores);
-
+    const averageScore = getAverageScore(scores);
+    const highestAmount = scores[averageScore];
 
     // Make elements for stats
     const streakElem = document.createElement('h3');
@@ -402,8 +410,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!stat) {
         stat = JSON.stringify(scores.fail);
       }
+      let barLength = (stat / highestAmount) * 350;
+      if (!barLength) {
+        barLength = 5;
+      }
       svg.setAttribute('height', '30px');
-      svg.setAttribute('width', `${stat * 10}px`);
+      svg.setAttribute('width', `${barLength}px`);
       svg.setAttribute('viewBox', `0 0 30 ${stat * 10}`);
       svg.style = 'border-radius:5px; ';
 
@@ -422,6 +434,20 @@ document.addEventListener('DOMContentLoaded', () => {
       group.append(lineBreak);
       statsContent.append(group);
     }
+  }
+
+  function getAverageScore(scores) {
+    // set maximum value to 0 and maxKey to an empty string
+    let max = 0;
+    let averageScore = '';
+
+    for (const [score] of Object.entries(scores)) {
+      if (scores[score] > max) {
+        max = scores[score];
+        averageScore = score;
+      }
+    }
+    return String(averageScore);
   }
 
   function getTimesPlayed(scores) {
@@ -444,9 +470,13 @@ document.addEventListener('DOMContentLoaded', () => {
         wins += stat;
       }
     }
-    console.log(wins, losses);
     // Calculate percentage rounded to 1 decimal place
-    return Math.round(wins / (wins + losses) * 1000) / 10;
+    const percentage = Math.round(wins / (wins + losses) * 1000) / 10;
+    if (!percentage) {
+      return 0;
+    } else {
+      return percentage;
+    }
   }
 
   function Toast(message) {
