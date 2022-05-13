@@ -17,9 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   tomorrowstr[4] = '23:00:00';
   tomorrowstr.splice(6, 3); // Remove the last parts of the string to fit the standard for cookies
   tomorrowstr = tomorrowstr.join(' ');
-
-  loadFromCookies();
-
+  
   // Toast stuff
 
   const toast = document.querySelector('.toast');
@@ -58,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoClose = document.querySelector('#infoClose');
   const infoBtn = document.querySelector('#info');
 
+  loadFromCookies();
 
   infoBtn.onclick = function () {
     infoModal.style.display = 'block';
@@ -165,12 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const result = results[index]; // Set the correct color for the tile
 
-        let tileColor = 'rgb(83, 141, 78)';
+        let tileColor = 'rgb(58,58,60)'; // Grey by default
         //
         switch (result) {
           case 'correct': tileColor = 'rgb(83, 141, 78)'; break; // If correct make tile green
           case 'present': tileColor = 'rgb(181, 159, 59)'; break; // If present make tile yellow
-          case 'absent': tileColor = 'rgb(58,58,60)'; break; // If absent make tile grey
+          case 'absent': break; // If absent keep tile grey
         }
 
         letterEl.classList.add('animate__flipInX');
