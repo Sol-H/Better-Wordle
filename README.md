@@ -61,6 +61,8 @@ The other files in this directory are assets. I have SVG files for the info, sha
 
 It has the stats modal (A popup containing stats), info modal, and an element with the class "toast". All of which are mostly empty, to be populated using javascript.
 
+The contents of the info modal is already put into the index.html, most of which mimics the actual WORDLE tutorial.
+
 *styles.css* has all the styling for the web app, including animations.
 
 *scripts.js* holds all of the logic for the frontend, this is where I will go in depth.
