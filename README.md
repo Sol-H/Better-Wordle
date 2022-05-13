@@ -33,7 +33,7 @@ A POST endpoint is also made in the server.mjs at '/checkword'. This will be use
 *'/checkword'* runs a function called ```gameHandler.checkWord(word)```. As you can see, i have another file called gameHandler.mjs that handles this.
 
 *gameHandler.mjs* is imported as gameHandler into the server.mjs file. It generates the daily word id by getting todays date, adding the year, month and day together, then getting the remainder of that value when divided by the length of the database (in this case 2309).
-This ensures that the word changes daily, and it resets once it exceeds the length of the database.
+This ensures that the word changes daily, and it reverts back to 0 once it exceeds the length of the database.
 
 This value, we call *dayId*, is then sent to a function (called *findWord(id)*) in another file called *dbHandler.mjs* (which is imported into the gameHandler).
 
