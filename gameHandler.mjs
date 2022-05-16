@@ -13,7 +13,7 @@ async function makeDailyWord() {
   const year = date.split('-')[0];
   const month = date.split('-')[1];
   const day = date.split('-')[2];
-  const dayId = (year + month + day) % 2309; // 2309 is the amount of words in the database
+  const dayId = ((year * 365) + (month * 31) + day) % 2309; // 2309 is the amount of words in the database
 
   const word = await db.findWord(dayId);
   dailyWord = word.word;

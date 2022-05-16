@@ -294,8 +294,8 @@ nav.flexbox {
   padding: 0;
   border: 0.25em solid rgb(197, 197, 197);
   border-radius: 1em;
-  height: 7.5vh;
-  width: 20vw;
+  height: 4em;
+  width: 10em;
 
   animation-name: animateToast;
   animation-duration: 5s
