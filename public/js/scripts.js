@@ -201,7 +201,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Change the colors of keyboard buttons based on guess
         const letterKeyEl = document.querySelector(`[data-key="${letter}"]`);
-        letterKeyEl.style = `background-color:${tileColor};`;
+        // Check if already colored
+        if (!letterKeyEl.style.backgroundColor) {
+          letterKeyEl.style = `background-color:${tileColor};`;
+        } else {
+          // Only change the color, if it is not already colored a less important color (e.g. if it should be green but is yellow)
+          switch (letterKeyEl.style.backgroundColor) {
+            case 'rgb(83, 141, 78)': break;
+            // Only change color if it is not green
+            case 'rgb(181, 159, 59)': if (result === 'correct') { letterKeyEl.style = `background-color:${tileColor};`; } break;
+            case 'rgb(58,58,60)': letterKeyEl.style = `background-color:${tileColor};`; break;
+          }
+        }
       }, interval * index);
     });
 
