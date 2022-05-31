@@ -282,7 +282,6 @@ nav.flexbox {
   left: 0;
   top: 7.5%;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
 }
 

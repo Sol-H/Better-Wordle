@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       key.onclick = ({ target }) => {
         const letter = target.getAttribute('data-key');
 
-        if (letter === 'enter') {
+        if (letter === 'enter' && !gameOver) {
           submitWord();
           return;
         }
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // The id will change depending on which row the first letter is on.
     const firstLetterId = guessedWordCount * 5 + 1;
     // Time between each letter showing up
-    const interval = 500;
+    const interval = 250;
 
     // Get status of the guess from the server
     const results = await postData('/checkword', { word: currentWord })
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Makes stats modal visible
       setTimeout(() => {
         statsModal.style.display = 'block';
-      }, 2500);
+      }, 2000);
 
       if (!gameOver) {
         const scores = JSON.parse(localStorage.getItem('scores'));
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show the stats modal
       setTimeout(() => {
         statsModal.style.display = 'block';
-      }, 2500);
+      }, 1250);
 
       gameOver = true;
       guessedWordCount = 'X';
