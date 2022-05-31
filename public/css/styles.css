@@ -111,7 +111,6 @@ nav.flexbox {
 .tile {
   width: 8vh;
   height: 8vh;
-
   outline-style: solid;
   outline-color: var(--color-tone-3);
   outline-width: 0.05em;
@@ -124,6 +123,12 @@ nav.flexbox {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media screen and (max-width: 400px) {
+  .tile {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 
 #key-container {
