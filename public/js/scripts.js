@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function submitWord() {
     const currentWordArr = getCurrentWordArr();
-
+    console.log(guessedWords);
     // Make sure the word is 5 letters long
     if (currentWordArr.length !== 5) {
       Toast('Word is too short!');
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function checkRealWord(word_) {
-    const code = await fetch('https://dictionary-dot-sse-2020.nw.r.appspot.com/' + word_).then(function (response) {
+    const code = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word_).then(function (response) {
       return response.status;
     });
     return code === 200;
