@@ -1,14 +1,14 @@
 {
   "builds": [
       {
-          "src": "server.mjs",
+          "src": "--experimental-modules server.mjs",
           "use": "@vercel/node"
       }
   ],
   "routes": [
       {
         "src": "/(.*)",
-        "dest": "server.mjs"
+        "dest": "--experimental-modules server.mjs"
       }
   ]
 }
