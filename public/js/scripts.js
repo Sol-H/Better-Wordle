@@ -88,6 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('streak', JSON.stringify({ amount: 0 }));
   }
 
+  if (!localStorage.getItem('username')) {
+    localStorage.setItem('username', 'Guest');
+    const username = prompt('Please enter your name');
+    localStorage.setItem('username', username);
+  }
+
   // Iterates through cookies, and loads the typed words, gameOver and info into the game.
   loadFromCookies();
 
