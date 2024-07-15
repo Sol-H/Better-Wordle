@@ -34,5 +34,9 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 8080
 
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Run the application.
-CMD npm start
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/bin/sh", "-c", "npm start"]
