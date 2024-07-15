@@ -8,8 +8,7 @@
 
 ARG NODE_VERSION=22.3.0
 
-FROM node:${NODE_VERSION}-alpine
-
+FROM --platform=linux/amd64 node:${NODE_VERSION}-alpine
 # Use production node environment by default.
 ENV NODE_ENV production
 
@@ -34,9 +33,5 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 8080
 
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 # Run the application.
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/bin/sh", "-c", "npm start"]
+CMD npm start

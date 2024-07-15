@@ -21,7 +21,8 @@
 html {
   font-size: 100%;
   box-sizing: border-box;
-  min-height: 100vh;
+  min-height: 100svh;
+  max-height: 100svh;
 }
 
 
@@ -109,8 +110,8 @@ nav.flexbox {
 }
 
 .tile {
-  width: 8vh;
-  height: 8vh;
+  width: 8svh;
+  height: 8svh;
   outline-style: solid;
   outline-color: var(--color-tone-3);
   outline-width: 0.05em;
@@ -124,10 +125,15 @@ nav.flexbox {
   align-items: center;
   justify-content: center;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 440px) {
   .tile {
     width: 15vw;
     height: 15vw;
+  }
+}
+@media screen and (max-width: 380px) {
+  .tile {
+    font-size: 1.5rem;
   }
 }
 
@@ -214,6 +220,7 @@ nav.flexbox {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  max-width: 100svw;
 }
 
 /* The Modal (background) */
@@ -228,6 +235,7 @@ nav.flexbox {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  max-width: 100svw;
 }
 
 
@@ -257,6 +265,7 @@ nav.flexbox {
 /* Modal Body */
 .modal-body {padding: 0.25em 1em;}
 
+
 /* Modal Footer */
 .modal-footer {
   padding: 0.25em 1em;
@@ -277,6 +286,9 @@ nav.flexbox {
   animation-name: animatetop;
   animation-duration: 0.2s;
   border-radius: 0.5em;
+}
+@media screen and (max-width: 440px) {
+  .modal-content {width: 98svw;}
 }
 
 /* The Toast (background) */
