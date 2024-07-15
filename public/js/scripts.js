@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statsModal = document.querySelector('#statsModal');
   const statsClose = document.querySelector('#statsClose');
   const statsBtn = document.querySelector('#stats');
+  const userBtn = document.querySelector('#user');
   const statsContentScore = document.querySelector('#statsContentScore');
   const statsContent = document.querySelector('#statsContent');
   const shareBtn = document.querySelector('#shareButton');
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
   statsClose.onclick = function () {
     // Hide the modal when the close button is clicked.
     statsModal.style.display = 'none';
+  };
+
+  userBtn.onclick = function () {
+    const username = prompt('Please enter your name');
+    localStorage.setItem('username', username);
   };
 
   window.onclick = function (event) {
@@ -90,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!localStorage.getItem('username')) {
     localStorage.setItem('username', 'Guest');
-    const username = prompt('Please enter your name');
-    localStorage.setItem('username', username);
+    // const username = prompt('Please enter your name');
+    // localStorage.setItem('username', username);
   } else {
     const username = localStorage.getItem('username');
   }
