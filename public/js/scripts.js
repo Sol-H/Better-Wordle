@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('username', 'Guest');
     const username = prompt('Please enter your name');
     localStorage.setItem('username', username);
+  } else {
+    const username = localStorage.getItem('username');
   }
 
   // Iterates through cookies, and loads the typed words, gameOver and info into the game.
