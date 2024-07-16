@@ -251,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scores[guessedWordCount] = scores[guessedWordCount] + 1;
         localStorage.setItem('scores', JSON.stringify(scores));
         localStorage.setItem('streak', JSON.stringify(streak));
+        pushWebHook();
       }
 
       statsContentScore.textContent = `Soldle Score: ${guessedWordCount}/6`;
@@ -259,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
       shareBtn.style.display = 'block';
 
       Toast('You win!');
-      pushWebHook();
       currentWord = '';
       gameOver = true;
       return;
