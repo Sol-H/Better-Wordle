@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function pushWebHook() {
     const username = localStorage.getItem('username');
     const score = copyScore();
-    const data = { content: `${username} scored:\n${score}` };
+    const data = { avatar_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Wordle_Logo.svg/1024px-Wordle_Logo.svg.png?20220624170852', username, content: score };
     postData('https://discord.com/api/webhooks/1262708057239060491/fMEiZovmVxyjtamtR5-VCdfOHXQ86KKSZO9lmgy1OskI_CSvZJX6RvB04W0Ke4ezkEfs', data);
   }
 
