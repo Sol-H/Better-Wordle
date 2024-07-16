@@ -259,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
       shareBtn.style.display = 'block';
 
       Toast('You win!');
+      pushWebHook();
       currentWord = '';
       gameOver = true;
       return;
@@ -379,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
   function copyScore() {
     let emojiScore = `Soldle Score: ${guessedWordCount}/6\n\n`;
     for (const line of score.split('\n')) {
@@ -397,6 +397,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navigator.clipboard.writeText(emojiScore);
     Toast('Score copied');
+    return emojiScore;
+  }
+
+  function pushWebHook() {
+    const username = localStorage.getItem('username');
+    const score = copyScore();
+    const data = { content: `${username} scored:\n${score}` };
+    postData('https://discord.com/api/webhooks/1262708057239060491/fMEiZovmVxyjtamtR5-VCdfOHXQ86KKSZO9lmgy1OskI_CSvZJX6RvB04W0Ke4ezkEfs', data);
   }
 
   // This function loads the stats from localStorage, then displays them in the statistics modal.
