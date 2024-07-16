@@ -2,7 +2,6 @@ import { MongoClient } from 'mongodb';
 import fs from 'fs';
 
 const url = process.env.MONGO; // MongoDB connection string
-console.log(url);
 const dbName = 'Soldle'; // Specify your database name
 const client = new MongoClient(url);
 
